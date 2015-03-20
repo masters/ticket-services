@@ -2,6 +2,7 @@ package org.rage.ticket.manager;
 
 
 import org.rage.ticket.exception.DatabaseTicketException;
+import org.rage.ticket.exception.TicketServiceDownException;
 import org.rage.ticket.exception.ValidationTicketException;
 import org.rage.ticket.model.Ticket;
 import org.rage.ticket.model.enu.TicketStatus;
@@ -25,10 +26,12 @@ public interface TicketManager
     * @return ticket
     * @throws DatabaseTicketException
     * @throws ValidationTicketException
+    * @throws TicketServiceDownException
     * @since 20/02/2015
     *
     */
-   Ticket getTicketById (Integer id) throws DatabaseTicketException, ValidationTicketException;
+   Ticket getTicketById (Integer id) throws DatabaseTicketException, ValidationTicketException,
+         TicketServiceDownException;
 
 
    /**
@@ -38,10 +41,12 @@ public interface TicketManager
     * @return ticketList
     * @throws DatabaseTicketException
     * @throws ValidationTicketException
+    * @throws TicketServiceDownException
     * @since 20/02/2015
     *
     */
-   List <Ticket> getTicketList (TicketStatus status) throws DatabaseTicketException, ValidationTicketException;
+   List <Ticket> getTicketList (TicketStatus status) throws DatabaseTicketException, ValidationTicketException,
+         TicketServiceDownException;
 
 
    /**
@@ -51,8 +56,10 @@ public interface TicketManager
     * @return ticket
     * @throws DatabaseTicketException
     * @throws ValidationTicketException
+    * @throws TicketServiceDownException
     * @since 20/02/2015
     *
     */
-   Ticket saveTicket (Ticket ticket) throws DatabaseTicketException, ValidationTicketException;
+   Ticket saveTicket (Ticket ticket) throws DatabaseTicketException, ValidationTicketException,
+         TicketServiceDownException;
 }

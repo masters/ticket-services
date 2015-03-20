@@ -3,6 +3,7 @@ package org.rage.ticket.manager;
 
 import org.rage.ticket.client.CatalogClient;
 import org.rage.ticket.exception.DatabaseTicketException;
+import org.rage.ticket.exception.TicketServiceDownException;
 import org.rage.ticket.exception.ValidationTicketException;
 import org.rage.ticket.model.Catalog;
 import org.rage.ticket.model.Ticket;
@@ -34,13 +35,15 @@ public class TicketManagerImpl implements TicketManager
     * Overrides getTicketById
     *
     * @param id
-    * @return
+    * @return ticket
     * @throws DatabaseTicketException
     * @throws ValidationTicketException
+    * @throws TicketServiceDownException
     * @since 20/02/2015
     * @see org.rage.ticket.manager.TicketManager#getTicketById(java.lang.Integer)
     */
-   public Ticket getTicketById (final Integer id) throws DatabaseTicketException, ValidationTicketException
+   public Ticket getTicketById (final Integer id) throws DatabaseTicketException, ValidationTicketException,
+         TicketServiceDownException
    {
       // TODO Auto-generated method stub
       final Ticket ticket = new Ticket ();
@@ -58,14 +61,15 @@ public class TicketManagerImpl implements TicketManager
     * Overrides getTicketList
     *
     * @param status
-    * @return
+    * @return tickets
     * @throws DatabaseTicketException
     * @throws ValidationTicketException
+    * @throws TicketServiceDownException
     * @since 20/02/2015
     * @see org.rage.ticket.manager.TicketManager#getTicketList(org.rage.ticket.model.enu.TicketStatus)
     */
    public List <Ticket> getTicketList (final TicketStatus status) throws DatabaseTicketException,
-         ValidationTicketException
+         ValidationTicketException, TicketServiceDownException
    {
       // TODO Auto-generated method stub
       final List <Ticket> tickets = new ArrayList <Ticket> ();
@@ -87,13 +91,15 @@ public class TicketManagerImpl implements TicketManager
     * Overrides saveTicket
     *
     * @param ticket
-    * @return
+    * @return ticket
     * @throws DatabaseTicketException
     * @throws ValidationTicketException
+    * @throws TicketServiceDownException
     * @since 20/02/2015
     * @see org.rage.ticket.manager.TicketManager#saveTicket(org.rage.ticket.model.Ticket)
     */
-   public Ticket saveTicket (final Ticket ticket) throws DatabaseTicketException, ValidationTicketException
+   public Ticket saveTicket (final Ticket ticket) throws DatabaseTicketException, ValidationTicketException,
+         TicketServiceDownException
    {
       // TODO Auto-generated method stub
       ticket.setValid (Boolean.TRUE);
@@ -101,7 +107,11 @@ public class TicketManagerImpl implements TicketManager
    }
 
 
-   private void fillCatalogInformation (final Ticket ticket)
+   /**
+    * @param ticket
+    * @throws TicketServiceDownException
+    * */
+   private void fillCatalogInformation (final Ticket ticket) throws TicketServiceDownException
    {
       if (ticket.getArea () != null)
       {

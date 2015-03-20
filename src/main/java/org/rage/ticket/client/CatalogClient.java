@@ -1,6 +1,7 @@
 package org.rage.ticket.client;
 
 
+import org.rage.ticket.exception.TicketServiceDownException;
 import org.rage.ticket.model.Catalog;
 
 import java.util.List;
@@ -21,11 +22,12 @@ public interface CatalogClient
     * Represents getCatalogList
     *
     * @param name
-    * @return
+    * @return list
+    * @throws TicketServiceDownException
     * @since 11/03/2015
     *
     */
-   public List <Catalog> getCatalogList (String name);
+   public List <Catalog> getCatalogList (String name) throws TicketServiceDownException;
 
 
    /**
@@ -33,9 +35,10 @@ public interface CatalogClient
     *
     * @param name
     * @param id
-    * @return
+    * @return catalog
+    * @throws TicketServiceDownException
     * @since 11/03/2015
     *
     */
-   public Catalog getCatalogById (final String name, Integer id);
+   public Catalog getCatalogById (final String name, Integer id) throws TicketServiceDownException;
 }

@@ -2,6 +2,7 @@ package org.rage.ticket.service;
 
 
 import org.rage.ticket.exception.DatabaseTicketException;
+import org.rage.ticket.exception.TicketServiceDownException;
 import org.rage.ticket.exception.ValidationTicketException;
 import org.rage.ticket.manager.TicketManager;
 import org.rage.ticket.model.Ticket;
@@ -56,6 +57,11 @@ public class TicketServiceImpl implements TicketService
          LOG.error (e.getMessage (), e);
          ticket = ErrorHandlerHelper.handleErrorMessages (ticket, e);
       }
+      catch (final TicketServiceDownException e)
+      {
+         LOG.error (e.getMessage (), e);
+         ticket = ErrorHandlerHelper.handleErrorMessages (ticket, e);
+      }
       return ticket;
    }
 
@@ -81,6 +87,11 @@ public class TicketServiceImpl implements TicketService
          output = ErrorHandlerHelper.handleErrorMessages (output, e);
       }
       catch (final ValidationTicketException e)
+      {
+         LOG.error (e.getMessage (), e);
+         output = ErrorHandlerHelper.handleErrorMessages (output, e);
+      }
+      catch (final TicketServiceDownException e)
       {
          LOG.error (e.getMessage (), e);
          output = ErrorHandlerHelper.handleErrorMessages (output, e);
@@ -111,6 +122,11 @@ public class TicketServiceImpl implements TicketService
          ErrorHandlerHelper.handleErrorMessages (wrapper, e);
       }
       catch (final ValidationTicketException e)
+      {
+         LOG.error (e.getMessage (), e);
+         ErrorHandlerHelper.handleErrorMessages (wrapper, e);
+      }
+      catch (final TicketServiceDownException e)
       {
          LOG.error (e.getMessage (), e);
          ErrorHandlerHelper.handleErrorMessages (wrapper, e);
