@@ -18,7 +18,7 @@ import java.util.List;
 
 
 /**
- * TicketServiceImpl represents ...
+ * TicketServiceImpl
  *
  * @version $Id$
  * @since 20/02/2015
@@ -27,7 +27,7 @@ import java.util.List;
 @Component ("ticketService")
 public class TicketServiceImpl implements TicketService
 {
-
+   @Autowired
    private transient TicketManager       ticketManager;
    private final static transient Logger LOG = Logger.getLogger (TicketServiceImpl.class);
 
@@ -133,15 +133,4 @@ public class TicketServiceImpl implements TicketService
       }
       return wrapper;
    }
-
-
-   /**
-    * @param ticketManager the ticketManager to set
-    */
-   @Autowired
-   public void setTicketManager (final TicketManager ticketManager)
-   {
-      this.ticketManager = ticketManager;
-   }
-
 }

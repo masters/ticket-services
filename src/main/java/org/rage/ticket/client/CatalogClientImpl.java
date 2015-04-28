@@ -1,7 +1,9 @@
 package org.rage.ticket.client;
 
 
+import org.rage.ticket.exception.TicketServiceDownException;
 import org.rage.ticket.model.Catalog;
+import org.rage.ticket.model.CatalogListWrapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -12,9 +14,8 @@ import java.util.Map;
 
 
 /**
- * CatalogClientImpl represents ...
+ * CatalogClientImpl
  *
- * @author hector.mendoza
  * @since 20/03/2015
  *
  */
@@ -42,12 +43,27 @@ public class CatalogClientImpl implements CatalogClient
     * @since 20/03/2015
     * @see org.rage.ticket.client.CatalogClient#getCatalogList(java.lang.String)
     */
-   public List <Catalog> getCatalogList (final String name)
+   public List <Catalog> getCatalogList (final String name) throws TicketServiceDownException
    {
+      List <Catalog> catalogList = null;
       final Map <String, String> variables = new HashMap <String, String> ();
       variables.put ("name", name);
-      final List response = restTemplate.getForObject (getUrl (listPath), List.class, variables);
-      return response;
+      CatalogListWrapper catalogListWrapper = null;
+
+      try
+      {
+         catalogListWrapper = restTemplate.getForObject (getUrl (listPath), CatalogListWrapper.class, variables);
+      }
+      catch (final Exception exception)
+      {
+         throw new TicketServiceDownException (exception.getMessage (), exception);
+      }
+
+      if ( (catalogListWrapper != null) && catalogListWrapper.isValid ())
+      {
+         catalogList = catalogListWrapper.getCatalogList ();
+      }
+      return catalogList;
    }
 
 
@@ -64,50 +80,48 @@ public class CatalogClientImpl implements CatalogClient
    {
       final Map <String, String> variables = new HashMap <String, String> ();
       variables.put ("name", name);
-      final Catalog response = restTemplate.getForObject (getUrl (getByIdPath + "/" + id + "/"), Catalog.class,
-            variables);
-      return response;
+      return restTemplate.getForObject (getUrl (getByIdPath + "/" + id + "/"), Catalog.class, variables);
    }
 
 
 
    /**
-    * @param listPath the listPath to set
+    * @param listPathValue the listPath to set
     */
    @Value ("#{systemProperties.catalogList}")
-   public void setListPath (final String listPath)
+   public void setListPath (final String listPathValue)
    {
-      this.listPath = listPath;
+      this.listPath = listPathValue;
    }
 
 
    /**
-    * @param getByIdPath the getByIdPath to set
+    * @param getByIdPathValue the getByIdPath to set
     */
    @Value ("#{systemProperties.catalogGetById}")
-   public void setGetByIdPath (final String getByIdPath)
+   public void setGetByIdPath (final String getByIdPathValue)
    {
-      this.getByIdPath = getByIdPath;
+      this.getByIdPath = getByIdPathValue;
    }
 
 
    /**
-    * @param server the server to set
+    * @param serverValue the server to set
     */
    @Value ("#{systemProperties.server}")
-   public void setServer (final String server)
+   public void setServer (final String serverValue)
    {
-      this.server = server;
+      this.server = serverValue;
    }
 
 
    /**
-    * @param applicationPath the applicationPath to set
+    * @param applicationPathValue the applicationPath to set
     */
    @Value ("#{systemProperties.catalogProject}")
-   public void setApplicationPath (final String applicationPath)
+   public void setApplicationPath (final String applicationPathValue)
    {
-      this.applicationPath = applicationPath;
+      this.applicationPath = applicationPathValue;
    }
 
 }

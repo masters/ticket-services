@@ -8,9 +8,8 @@ import java.util.List;
 
 
 /**
- * CatalogClient represents ...
+ * CatalogClient
  *
- * @author hector.mendoza
  * @version $Id$
  * @since 11/03/2015
  *

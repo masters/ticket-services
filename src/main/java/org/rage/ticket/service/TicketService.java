@@ -7,7 +7,7 @@ import org.rage.ticket.model.enu.TicketStatus;
 
 
 /**
- * TicketService represents ...
+ * TicketService
  *
  * @version $Id$
  * @since 18/02/2015

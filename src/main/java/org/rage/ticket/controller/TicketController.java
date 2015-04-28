@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 /**
- * TicketController represents ...
+ * TicketController
  *
  * @version $Id$
  * @since 18/02/2015
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Controller ("ticketController")
 public class TicketController
 {
-
+   @Autowired
    private transient TicketService ticketService;
 
 
@@ -117,16 +117,4 @@ public class TicketController
 
       return ticketService.getTicketByStatus (TicketStatus.PENDING);
    }
-
-
-
-   /**
-    * @param ticketService the ticketService to set
-    */
-   @Autowired
-   public void setTicketService (final TicketService ticketService)
-   {
-      this.ticketService = ticketService;
-   }
-
 }

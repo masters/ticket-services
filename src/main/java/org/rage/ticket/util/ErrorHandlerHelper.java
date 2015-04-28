@@ -6,7 +6,7 @@ import org.rage.ticket.model.Ticket;
 
 
 /**
- * ErrorHandlerHelper represents ...
+ * ErrorHandlerHelper
  *
  * @version $Id$
  * @since 20/02/2015

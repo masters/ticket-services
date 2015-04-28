@@ -1,14 +1,12 @@
 package org.rage.ticket.manager;
 
 
-import org.rage.ticket.client.CatalogClient;
 import org.rage.ticket.exception.DatabaseTicketException;
 import org.rage.ticket.exception.TicketServiceDownException;
 import org.rage.ticket.exception.ValidationTicketException;
-import org.rage.ticket.model.Catalog;
 import org.rage.ticket.model.Ticket;
-import org.rage.ticket.model.enu.Catalogs;
 import org.rage.ticket.model.enu.TicketStatus;
+import org.rage.ticket.util.CatalogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,8 +25,9 @@ import java.util.List;
 @Component ("ticketManager")
 public class TicketManagerImpl implements TicketManager
 {
+   @Autowired
+   private CatalogFactory catalogFactory;
 
-   private CatalogClient catalogClient;
 
 
    /**
@@ -51,7 +50,7 @@ public class TicketManagerImpl implements TicketManager
       ticket.setCreationDate (new Date ());
 
       // fillCatalogs
-      fillCatalogInformation (ticket);
+      catalogFactory.fillCatalogInformation (ticket);
 
       return ticket;
    }
@@ -78,10 +77,10 @@ public class TicketManagerImpl implements TicketManager
       ticket.setCreationDate (new Date ());
       tickets.add (ticket);
 
-      for (final Ticket ticket : tickets)
+      for (final Ticket ticketVar : tickets)
       {
          // fillCatalogs
-         fillCatalogInformation (ticket);
+         catalogFactory.fillCatalogInformation (ticketVar);
       }
       return tickets;
    }
@@ -106,45 +105,4 @@ public class TicketManagerImpl implements TicketManager
       return ticket;
    }
 
-
-   /**
-    * @param ticket
-    * @throws TicketServiceDownException
-    * */
-   private void fillCatalogInformation (final Ticket ticket) throws TicketServiceDownException
-   {
-      if (ticket.getArea () != null)
-      {
-         final Catalog area = this.catalogClient.getCatalogById (Catalogs.REPORT.name (), ticket.getArea ().getId ());
-         ticket.setArea (area);
-      }
-      if (ticket.getPriority () != null)
-      {
-         final Catalog priority = this.catalogClient.getCatalogById (Catalogs.PRIORITY.name (), ticket.getPriority ()
-               .getId ());
-         ticket.setPriority (priority);
-      }
-      if (ticket.getReport () != null)
-      {
-         final Catalog report = this.catalogClient.getCatalogById (Catalogs.REPORT.name (), ticket.getReport ()
-               .getId ());
-         ticket.setReport (report);
-      }
-      if (ticket.getServiceType () != null)
-      {
-         final Catalog serviceType = this.catalogClient.getCatalogById (Catalogs.SERVICE_TYPE.name (), ticket
-               .getServiceType ().getId ());
-         ticket.setServiceType (serviceType);
-      }
-   }
-
-
-   /**
-    * @param catalogClient the catalogClient to set
-    */
-   @Autowired
-   public void setCatalogClient (final CatalogClient catalogClient)
-   {
-      this.catalogClient = catalogClient;
-   }
 }
