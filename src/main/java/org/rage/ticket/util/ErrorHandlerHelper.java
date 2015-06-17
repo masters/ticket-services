@@ -24,15 +24,16 @@ public final class ErrorHandlerHelper
     * @since 20/02/2015
     *
     */
-   public static Ticket handleErrorMessages (Ticket ticket, final Exception exception)
+   public static Ticket handleErrorMessages (final Ticket ticket, final Exception exception)
    {
-      if (ticket == null)
+      Ticket ticketWithError = ticket;
+      if (ticketWithError == null)
       {
-         ticket = new Ticket ();
+         ticketWithError = new Ticket ();
       }
-      ticket.setErrorMessage (exception.getMessage ());
-      ticket.setValid (Boolean.FALSE);
-      return ticket;
+      ticketWithError.setErrorMessage (exception.getMessage ());
+      ticketWithError.setValid (Boolean.FALSE);
+      return ticketWithError;
    }
 
 
